@@ -84,6 +84,9 @@ func (c *Client) buildDialOptions() []grpc.DialOption {
 		}
 	}
 
+	// Append custom dial options from config
+	opts = append(opts, c.config.DialOptions...)
+
 	return opts
 }
 

@@ -2,6 +2,7 @@ package client
 
 import (
 	"github.com/noders-team/go-daml/pkg/auth"
+	"google.golang.org/grpc"
 )
 
 type Config struct {
@@ -9,6 +10,7 @@ type Config struct {
 	AdminAddress string
 	TLS          *TLSConfig
 	Auth         *AuthConfig
+	DialOptions  []grpc.DialOption
 }
 
 type TLSConfig struct {
@@ -57,6 +59,12 @@ func WithTokenProvider(provider auth.TokenProvider) ConfigOption {
 			c.Auth = &AuthConfig{}
 		}
 		c.Auth.TokenProvider = provider
+	}
+}
+
+func WithDialOptions(opts ...grpc.DialOption) ConfigOption {
+	return func(c *Config) {
+		c.DialOptions = append(c.DialOptions, opts...)
 	}
 }
 
